@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UserGenerate;
 use App\Http\Requests\Admin\UserSendMail;
 use App\Http\Requests\Admin\UserUpdate;
 use App\Jobs\SendEmailJob;
+use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
 use App\Services\AuthService;
@@ -299,6 +300,20 @@ class UserController extends Controller
 
         return response([
             'data' => true
+        ]);
+    }
+
+    public function delUser(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        if (!$user) abort(500, '用户不存在');
+        try {
+            $deletedOrders = Order::where('user_id', $request->input('id'))->delete();
+        } catch (\Exception $e) {
+            abort(500, '删除用户订单失败');
+        }
+        return response([
+            'data' => $user->delete()
         ]);
     }
 }
