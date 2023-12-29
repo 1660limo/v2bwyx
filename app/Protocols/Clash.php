@@ -52,18 +52,18 @@ class Clash
                 array_push($proxy, self::buildVmess($user['uuid'], $item));
                 array_push($proxies, $item['name']);
             }
-            if ($item['type'] === 'vless') {
-                array_push($proxy, self::buildVless($user['uuid'], $item));
-                array_push($proxies, $item['name']);
-            }
+            //if ($item['type'] === 'vless') {
+            //    array_push($proxy, self::buildVless($user['uuid'], $item));
+            //    array_push($proxies, $item['name']);
+            //}
             if ($item['type'] === 'trojan') {
                 array_push($proxy, self::buildTrojan($user['uuid'], $item));
                 array_push($proxies, $item['name']);
             }
-            if ($item['type'] === 'hysteria') {
-                array_push($proxy, self::buildHysteria($user['uuid'], $item));
-                array_push($proxies, $item['name']);
-            }
+            //if ($item['type'] === 'hysteria') {
+            //    array_push($proxy, self::buildHysteria($user['uuid'], $item));
+            //    array_push($proxies, $item['name']);
+            //}
         }
 
         $config['proxies'] = array_merge($config['proxies'] ? $config['proxies'] : [], $proxy);
@@ -137,8 +137,15 @@ class Clash
         }
         if ($server['network'] === 'tcp') {
             $tcpSettings = $server['networkSettings'];
-            if (isset($tcpSettings['header']['type'])) $array['network'] = $tcpSettings['header']['type'];
-            if (isset($tcpSettings['header']['request']['path'])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'];
+            if (isset($tcpSettings['header']['type']) && $tcpSettings['header']['type'] == 'http') {
+                $array['network'] = $tcpSettings['header']['type'];
+                if (isset($tcpSettings['header']['request']['headers']['Host'])) $array['http-opts']['headers']['Host'] = $tcpSettings['header']['request']['headers']['Host'];
+<<<<<<< HEAD
+                if (isset($tcpSettings['header']['request']['path'])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'];
+=======
+                if (isset($tcpSettings['header']['request']['path'][0])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'][0];
+>>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
+            }
         }
         if ($server['network'] === 'ws') {
             $array['network'] = 'ws';
@@ -192,8 +199,15 @@ class Clash
 
         if ($server['network'] === 'tcp') {
             $tcpSettings = $server['network_settings'];
-            if (isset($tcpSettings['header']['type']) && $tcpSettings['header']['type'] == 'http') $array['network'] = $tcpSettings['header']['type'];
-            if (isset($tcpSettings['header']['request']['path'])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'];
+            if (isset($tcpSettings['header']['type']) && $tcpSettings['header']['type'] == 'http') {
+                $array['network'] = $tcpSettings['header']['type'];
+                if (isset($tcpSettings['header']['request']['headers']['Host'])) $array['http-opts']['headers']['Host'] = $tcpSettings['header']['request']['headers']['Host'];
+<<<<<<< HEAD
+                if (isset($tcpSettings['header']['request']['path'])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'];
+=======
+                if (isset($tcpSettings['header']['request']['path'][0])) $array['http-opts']['path'] = $tcpSettings['header']['request']['path'][0];
+>>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
+            }
         }
 
         if ($server['network'] === 'ws') {

@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UserGenerate;
 use App\Http\Requests\Admin\UserSendMail;
 use App\Http\Requests\Admin\UserUpdate;
 use App\Jobs\SendEmailJob;
+use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
 use App\Services\AuthService;
@@ -75,7 +76,6 @@ class UserController extends Controller
                     $res[$i]['plan_name'] = $plan[$k]['name'];
                 }
             }
-            $res[$i]['subscribe_url'] = Helper::getSubscribeUrl('/api/v1/client/subscribe?token=' . $res[$i]['token']);
             //统计在线设备
             $countalive = 0;
             $ips_array = Cache::get('ALIVE_IP_USER_'. $res[$i]['id']);
@@ -83,6 +83,8 @@ class UserController extends Controller
                 $countalive = $ips_array['alive_ip'];
             }
             $res[$i]['alive_ip'] = $countalive;
+
+            $res[$i]['subscribe_url'] = Helper::getSubscribeUrl($res[$i]['token']);
         }
         return response([
             'data' => $res,
@@ -174,8 +176,9 @@ class UserController extends Controller
             $deviceLimit = $user['devce_limit'] ? $user['devce_limit'] : NULL;
             $notUseFlow = (($user['transfer_enable'] - ($user['u'] + $user['d'])) / 1073741824) ?? 0;
             $planName = $user['plan_name'] ?? '无订阅';
-            $subscribeUrl = Helper::getSubscribeUrl('/api/v1/client/subscribe?token=' . $user['token']);
+            $subscribeUrl =  Helper::getSubscribeUrl($user['token']);
             $data .= "{$user['email']},{$balance},{$commissionBalance},{$transferEnable}, {$deviceLimit}, {$notUseFlow},{$expireDate},{$planName},{$subscribeUrl}\r\n";
+
         }
         echo "\xEF\xBB\xBF" . $data;
     }
@@ -251,7 +254,7 @@ class UserController extends Controller
             $expireDate = $user['expired_at'] === NULL ? '长期有效' : date('Y-m-d H:i:s', $user['expired_at']);
             $createDate = date('Y-m-d H:i:s', $user['created_at']);
             $password = $request->input('password') ?? $user['email'];
-            $subscribeUrl = Helper::getSubscribeUrl('/api/v1/client/subscribe?token=' . $user['token']);
+            $subscribeUrl = Helper::getSubscribeUrl($user['token']);
             $data .= "{$user['email']},{$password},{$expireDate},{$user['uuid']},{$createDate},{$subscribeUrl}\r\n";
         }
         echo $data;
@@ -299,6 +302,34 @@ class UserController extends Controller
 
         return response([
             'data' => true
+        ]);
+    }
+
+    public function delUser(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        if (!$user) abort(500, '用户不存在');
+<<<<<<< HEAD
+        
+=======
+>>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
+        try {
+            $deletedOrders = Order::where('user_id', $request->input('id'))->delete();
+        } catch (\Exception $e) {
+            abort(500, '删除用户订单失败');
+        }
+<<<<<<< HEAD
+
+        try {
+            $inviteUser = User::where('invite_user_id', $request->input('id'))->update(['invite_user_id' => null]);
+        } catch (\Exception $e) {
+            abort(500, '删除用户邀请人失败');
+        }
+        
+=======
+>>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
+        return response([
+            'data' => $user->delete()
         ]);
     }
 }
