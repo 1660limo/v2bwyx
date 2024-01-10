@@ -309,16 +309,12 @@ class UserController extends Controller
     {
         $user = User::find($request->input('id'));
         if (!$user) abort(500, '用户不存在');
-<<<<<<< HEAD
         
-=======
->>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
         try {
             $deletedOrders = Order::where('user_id', $request->input('id'))->delete();
         } catch (\Exception $e) {
             abort(500, '删除用户订单失败');
         }
-<<<<<<< HEAD
 
         try {
             $inviteUser = User::where('invite_user_id', $request->input('id'))->update(['invite_user_id' => null]);
@@ -326,8 +322,6 @@ class UserController extends Controller
             abort(500, '删除用户邀请人失败');
         }
         
-=======
->>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
         return response([
             'data' => $user->delete()
         ]);

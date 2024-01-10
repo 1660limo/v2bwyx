@@ -36,6 +36,9 @@ class V2rayN
             if ($item['type'] === 'trojan') {
                 $uri .= self::buildTrojan($user['uuid'], $item);
             }
+            if ($item['type'] === 'hysteria' && $item['version'] == 2) {
+                $uri .= self::buildHysteria2($user['uuid'], $item);
+            }
         }
         return base64_encode($uri);
     }
@@ -148,11 +151,7 @@ class V2rayN
                 if (isset($tcpSettings['header']['request']['headers']['Host'][0])) $config['host'] = $tcpSettings['header']['request']['headers']['Host'][0];
                 if (isset($tcpSettings['header']['request']['path'][0])) $config['path'] = $tcpSettings['header']['request']['path'][0];
             }
-<<<<<<< HEAD
             $output .= "&headerType={$config['headerType']}" . "&host={$config['host']}" . "&path={$config['path']}";
-=======
-            $output .= "&headerType={$config['headerType']}" . "&host={$config['host']}" . "&seed={$config['path']}";
->>>>>>> a00a80d07ad29d14746ae162af9edf408666d74c
         }
         if ((string)$server['network'] === 'kcp') {
             $kcpSettings = $server['network_settings'];
@@ -219,6 +218,19 @@ class V2rayN
             }
         }
         
+        $uri .= "#{$name}\r\n";
+        return $uri;
+    }
+
+    public static function buildHysteria2($password, $server)
+    {
+        $remote = filter_var($server['host'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? '[' . $server['host'] . ']' : $server['host'];
+     	$name = Helper::encodeURIComponent($server['name']);
+        $uri = "hysteria2://{$password}@{$remote}:{$server['port']}/?insecure={$server['insecure']}&sni={$server['server_name']}";
+        if (isset($server['obfs']) && isset($server['obfs_password'])) {
+            $uri .= "&obfs={$server['obfs']}&obfs-password={$server['obfs_password']}";
+        }
+
         $uri .= "#{$name}\r\n";
         return $uri;
     }
