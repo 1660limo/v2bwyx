@@ -15,17 +15,17 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function (Request $request) {
-    if (config('daotech.app_url') && config('daotech.safe_mode_enable', 0)) {
-        if ($request->server('HTTP_HOST') !== parse_url(config('daotech.app_url'))['host']) {
+    if (config('v2board.app_url') && config('v2board.safe_mode_enable', 0)) {
+        if ($request->server('HTTP_HOST') !== parse_url(config('v2board.app_url'))['host']) {
             abort(403);
         }
     }
     $renderParams = [
-        'title' => config('daotech.app_name', 'daotech'),
-        'theme' => config('daotech.frontend_theme', 'default'),
+        'title' => config('v2board.app_name', 'V2Board'),
+        'theme' => config('v2board.frontend_theme', 'default'),
         'version' => config('app.version'),
-        'description' => config('daotech.app_description', 'daotech is best'),
-        'logo' => config('daotech.logo')
+        'description' => config('v2board.app_description', 'V2Board is best'),
+        'logo' => config('v2board.logo')
     ];
 
     if (!config("theme.{$renderParams['theme']}")) {
@@ -33,24 +33,24 @@ Route::get('/', function (Request $request) {
         $themeService->init();
     }
 
-    $renderParams['theme_config'] = config('theme.' . config('daotech.frontend_theme', 'default'));
-    return view('theme::' . config('daotech.frontend_theme', 'default') . '.dashboard', $renderParams);
+    $renderParams['theme_config'] = config('theme.' . config('v2board.frontend_theme', 'default'));
+    return view('theme::' . config('v2board.frontend_theme', 'default') . '.dashboard', $renderParams);
 });
 
 //TODO:: 兼容
-Route::get('/' . config('daotech.secure_path', config('daotech.frontend_admin_path', hash('crc32b', config('app.key')))), function () {
+Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))), function () {
     return view('admin', [
-        'title' => config('daotech.app_name', 'daotech'),
-        'theme_sidebar' => config('daotech.frontend_theme_sidebar', 'light'),
-        'theme_header' => config('daotech.frontend_theme_header', 'dark'),
-        'theme_color' => config('daotech.frontend_theme_color', 'default'),
-        'background_url' => config('daotech.frontend_background_url'),
+        'title' => config('v2board.app_name', 'V2Board'),
+        'theme_sidebar' => config('v2board.frontend_theme_sidebar', 'light'),
+        'theme_header' => config('v2board.frontend_theme_header', 'dark'),
+        'theme_color' => config('v2board.frontend_theme_color', 'default'),
+        'background_url' => config('v2board.frontend_background_url'),
         'version' => config('app.version'),
-        'logo' => config('daotech.logo'),
-        'secure_path' => config('daotech.secure_path', config('daotech.frontend_admin_path', hash('crc32b', config('app.key'))))
+        'logo' => config('v2board.logo'),
+        'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))
     ]);
 });
 
-if (!empty(config('daotech.subscribe_path'))) {
-    Route::get(config('daotech.subscribe_path'), 'V1\\Client\\ClientController@subscribe')->middleware('client');
+if (!empty(config('v2board.subscribe_path'))) {
+    Route::get(config('v2board.subscribe_path'), 'V1\\Client\\ClientController@subscribe')->middleware('client');
 }

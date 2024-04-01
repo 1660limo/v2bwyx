@@ -170,7 +170,7 @@ return [
 
     'environments' => [
         'local' => [
-            'daotech' => [
+            'V2board' => [
                 'connection' => 'redis',
                 'queue' => [
                     'order_handle',
