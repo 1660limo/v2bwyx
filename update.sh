@@ -13,7 +13,7 @@ fi
 git config --global --add safe.directory $(pwd)
 git fetch --all && git reset --hard origin/master && git pull origin master
 rm -rf composer.lock composer.phar
-wget https://github.com/composer/composer/releases/latest/download/composer.phar -O composer.phar
+wget https://mirrors.aliyun.com/composer/composer.phar -O composer.phar
 php composer.phar update -vvv
 
 php_main_version=$(php -v | head -n 1 | cut -d ' ' -f 2 | cut -d '.' -f 1)
