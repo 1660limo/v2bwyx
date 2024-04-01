@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class daotechUpdate extends Command
+class v2boardUpdate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'daotech:update';
+    protected $signature = 'v2board:update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'daotech 更新';
+    protected $description = 'v2board 更新';
 
     /**
      * Create a new command instance.

@@ -1,6 +1,6 @@
 <img src="https://avatars.githubusercontent.com/u/56885001?s=200&v=4" alt="logo" width="130" height="130" align="right"/>
 
-[![](https://img.shields.io/badge/TgChat-@UnOfficialdaotech讨论-blue.svg)](https://t.me/unofficialdaotech)
+[![](https://img.shields.io/badge/TgChat-@UnOfficialv2board讨论-blue.svg)](https://t.me/unofficialv2board)
 
 ## 本分支支持的后端
  
@@ -12,7 +12,7 @@
 
 按以下步骤进行面板文件迁移：
 
-    git remote set-url origin https://github.com/wyx2685/daotech  
+    git remote set-url origin https://github.com/wyx2685/v2board  
     git checkout master  
     ./update.sh  
 
@@ -34,16 +34,16 @@
 - Laravel
 
 ## Demo
-[Demo](https://demo.daotech.com)
+[Demo](https://demo.v2board.com)
 
 ## Document
-[Click](https://daotech.com)
+[Click](https://v2board.com)
 
 ## Sponsors
 Thanks to the open source project license provided by [Jetbrains](https://www.jetbrains.com/)
 
 ## Community
-??Telegram Channel: [@daotech](https://t.me/daotech)  
+??Telegram Channel: [@v2board](https://t.me/v2board)  
 
 ## How to Feedback
 Follow the template in the issue to submit your question correctly, and we will have someone follow up with you.

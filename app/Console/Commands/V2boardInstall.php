@@ -8,21 +8,21 @@ use App\Models\User;
 use App\Utils\Helper;
 use Illuminate\Support\Facades\DB;
 
-class daotechInstall extends Command
+class v2boardInstall extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'daotech:install';
+    protected $signature = 'v2board:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'daotech 安装';
+    protected $description = 'v2board 安装';
 
     /**
      * Create a new command instance.
@@ -48,7 +48,7 @@ class daotechInstall extends Command
             $this->info("  \ V /  / __/| |_) | (_) | (_| | | | (_| | ");
             $this->info("   \_/  |_____|____/ \___/ \__,_|_|  \__,_| ");
             if (\File::exists(base_path() . '/.env')) {
-                $securePath = config('daotech.secure_path', config('daotech.frontend_admin_path', hash('crc32b', config('app.key'))));
+                $securePath = config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))));
                 $this->info("访问 http(s)://你的站点/{$securePath} 进入管理面板，你可以在用户中心修改你的密码。");
                 abort(500, '如需重新安装请删除目录下.env文件');
             }
