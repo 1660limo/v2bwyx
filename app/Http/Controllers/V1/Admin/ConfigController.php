@@ -43,7 +43,7 @@ class ConfigController extends Controller
             'subject' => 'This is daotech test email',
             'template_name' => 'notify',
             'template_value' => [
-                'name' => config('daotech.app_name', 'DaoTech'),
+                'name' => config('daotech.app_name', 'V2Board'),
                 'content' => 'This is daotech test email',
                 'url' => config('daotech.app_url')
             ]
@@ -88,8 +88,8 @@ class ConfigController extends Controller
                 'logo' => config('daotech.logo'),
                 'force_https' => (int)config('daotech.force_https', 0),
                 'stop_register' => (int)config('daotech.stop_register', 0),
-                'app_name' => config('daotech.app_name', 'DaoTech'),
-                'app_description' => config('daotech.app_description', 'DaoTech is best!'),
+                'app_name' => config('daotech.app_name', 'V2Board'),
+                'app_description' => config('daotech.app_description', 'V2Board is best!'),
                 'app_url' => config('daotech.app_url'),
                 'subscribe_url' => config('daotech.subscribe_url'),
                 'subscribe_path' => config('daotech.subscribe_path'),

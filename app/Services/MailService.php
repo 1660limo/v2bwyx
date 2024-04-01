@@ -23,7 +23,7 @@ class MailService
             ]),
             'template_name' => 'remindTraffic',
             'template_value' => [
-                'name' => config('daotech.app_name', 'DaoTech'),
+                'name' => config('daotech.app_name', 'V2Board'),
                 'url' => config('daotech.app_url')
             ]
         ]);
@@ -39,7 +39,7 @@ class MailService
             ]),
             'template_name' => 'remindExpire',
             'template_value' => [
-                'name' => config('daotech.app_name', 'DaoTech'),
+                'name' => config('daotech.app_name', 'V2Board'),
                 'url' => config('daotech.app_url')
             ]
         ]);

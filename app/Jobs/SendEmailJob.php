@@ -43,7 +43,7 @@ class SendEmailJob implements ShouldQueue
             Config::set('mail.username', config('daotech.email_username', env('mail.username')));
             Config::set('mail.password', config('daotech.email_password', env('mail.password')));
             Config::set('mail.from.address', config('daotech.email_from_address', env('mail.from.address')));
-            Config::set('mail.from.name', config('daotech.app_name', 'DaoTech'));
+            Config::set('mail.from.name', config('daotech.app_name', 'V2Board'));
         }
         $params = $this->params;
         $email = $params['email'];

@@ -57,11 +57,11 @@ class AuthController extends Controller
         SendEmailJob::dispatch([
             'email' => $user->email,
             'subject' => __('Login to :name', [
-                'name' => config('daotech.app_name', 'DaoTech')
+                'name' => config('daotech.app_name', 'V2Board')
             ]),
             'template_name' => 'login',
             'template_value' => [
-                'name' => config('daotech.app_name', 'DaoTech'),
+                'name' => config('daotech.app_name', 'V2Board'),
                 'link' => $link,
                 'url' => config('daotech.app_url')
             ]
