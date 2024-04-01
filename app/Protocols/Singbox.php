@@ -19,7 +19,7 @@ class Singbox
 
     public function handle()
     {
-        $appName = config('app_name', 'V2Board');
+        $appName = config('app_name', 'DaoTech');
         $config = $this->loadConfig();
         $outbounds = $this->buildOutbounds();
         $config['outbounds'] = $outbounds;
