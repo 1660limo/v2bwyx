@@ -21,7 +21,7 @@ class ClashVerge
     {
         $servers = $this->servers;
         $user = $this->user;
-        $appName = config('v2board.app_name', 'V2Board');
+        $appName = config('daotech.app_name', 'daotech');
         header("subscription-userinfo: upload={$user['u']}; download={$user['d']}; total={$user['transfer_enable']}; expire={$user['expired_at']}");
         header('profile-update-interval: 24');
         header("content-disposition:attachment;filename*=UTF-8''".rawurlencode($appName));
@@ -87,7 +87,7 @@ class ClashVerge
         }
 
         $yaml = Yaml::dump($config, 2, 4, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
-        $yaml = str_replace('$app_name', config('v2board.app_name', 'V2Board'), $yaml);
+        $yaml = str_replace('$app_name', config('daotech.app_name', 'daotech'), $yaml);
         return $yaml;
     }
 
@@ -270,10 +270,23 @@ class ClashVerge
         $array = [];
         $array['name'] = $server['name'];
         $array['server'] = $server['host'];
-        $array['port'] = $server['port'];
+
+        $parts = explode(",", $server['port']);
+        $firstPart = $parts[0];
+        if (strpos($firstPart, '-') !== false) {
+            $range = explode('-', $firstPart);
+            $firstPort = $range[0];
+        } else {
+            $firstPort = $firstPart;
+        }
+        $array['port'] = (int)$firstPort;
+        if (count($parts) !== 1 || strpos($parts[0], '-') !== false) {
+            $array['ports'] = $server['port'];
+            $array['mport'] = $server['port'];   
+        }
         $array['udp'] = true;
         $array['skip-cert-verify'] = $server['insecure'] == 1 ? true : false;
-    
+
         if (isset($server['server_name'])) $array['sni'] = $server['server_name'];
 
         if ($server['version'] === 2) {

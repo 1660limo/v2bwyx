@@ -8,7 +8,7 @@ class AdminRoute
     public function map(Registrar $router)
     {
         $router->group([
-            'prefix' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))),
+            'prefix' => config('daotech.secure_path', config('daotech.frontend_admin_path', hash('crc32b', config('app.key')))),
             'middleware' => ['admin', 'log'],
         ], function ($router) {
             // Config
@@ -90,6 +90,7 @@ class AdminRoute
             $router->post('/user/ban', 'V1\\Admin\\UserController@ban');
             $router->post('/user/resetSecret', 'V1\\Admin\\UserController@resetSecret');
             $router->post('/user/delUser', 'V1\\Admin\\UserController@delUser');
+            $router->post('/user/allDel', 'V1\\Admin\\UserController@allDel');
             $router->post('/user/setInviteUser', 'V1\\Admin\\UserController@setInviteUser');
             // Stat
             $router->get ('/stat/getStat', 'V1\\Admin\\StatController@getStat');

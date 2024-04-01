@@ -23,7 +23,7 @@ class UniProxyController extends Controller
         if (empty($token)) {
             abort(500, 'token is null');
         }
-        if ($token !== config('v2board.server_token')) {
+        if ($token !== config('daotech.server_token')) {
             abort(500, 'token is error');
         }
         $this->nodeType = $request->input('node_type');
@@ -71,6 +71,12 @@ class UniProxyController extends Controller
     {
         $data = request()->getContent() ?: json_encode($_POST);
         $data = json_decode($data, true);
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+            // JSON decoding error
+            return response([
+                'error' => 'Invalid traffic data'
+            ], 400);
+        }
         Cache::put(CacheKey::get('SERVER_' . strtoupper($this->nodeType) . '_ONLINE_USER', $this->nodeInfo->id), count($data), 3600);
         Cache::put(CacheKey::get('SERVER_' . strtoupper($this->nodeType) . '_LAST_PUSH_AT', $this->nodeInfo->id), time(), 3600);
         $userService = new UserService();
@@ -92,36 +98,26 @@ class UniProxyController extends Controller
                 'error' => 'Invalid online data'
             ], 400);
         }
-
+        $updateAt = time();
         foreach ($data as $uid => $ips) {
-            $updateAt = time();
-            $oldips_array = Cache::get('ALIVE_IP_USER_'. $uid) ?? [];
+            $ips_array = Cache::get('ALIVE_IP_USER_'. $uid) ?? [];
 
             // 更新节点数据
-            $oldips_array[$this->nodeType . $this->nodeId] = ['aliveips' => $ips, 'lastupdateAt' => $updateAt];
-            // 删除过期节点在线数据
-            $expired_array = [];
-            foreach($oldips_array as $nodetypeid => $oldips) {
-                if (is_int($oldips)) {
-                    continue;
-                }
-                if ($updateAt - $oldips['lastupdateAt'] > 120){
-                    $expired_array[$nodetypeid] = '';
-                }
-            }
-            // 清理过期数据并存回缓存
-            $new_array = array_diff_key($oldips_array, $expired_array);
+            $ips_array[$this->nodeType . $this->nodeId] = ['aliveips' => $ips, 'lastupdateAt' => $updateAt];
+            // 清理过期数据
+            foreach($ips_array as $nodetypeid => $oldips) { 
+                if (!is_int($oldips) && ($updateAt - $oldips['lastupdateAt'] > 100)) { 
+                    unset($ips_array[$nodetypeid]); 
+                } 
+            } 
             $count = 0;
-            foreach($new_array as $nodetypeid => $newdata) {
-                if (is_int($newdata)) {
-                    continue;
-                }
-                foreach($newdata['aliveips'] as $newip) {
-                    $count++;
+            foreach($ips_array as $nodetypeid => $newdata) {
+                if (!is_int($newdata) && isset($newdata['aliveips'])) {
+                    $count += count($newdata['aliveips']);
                 }
             }
-            $new_array['alive_ip'] = $count;
-            Cache::put('ALIVE_IP_USER_'. $uid, $new_array, 120);
+            $ips_array['alive_ip'] = $count;
+            Cache::put('ALIVE_IP_USER_'. $uid, $ips_array, 120);
         }
 
         return response([
@@ -195,8 +191,8 @@ class UniProxyController extends Controller
                 break;
         }
         $response['base_config'] = [
-            'push_interval' => (int)config('v2board.server_push_interval', 60),
-            'pull_interval' => (int)config('v2board.server_pull_interval', 60)
+            'push_interval' => (int)config('daotech.server_push_interval', 60),
+            'pull_interval' => (int)config('daotech.server_pull_interval', 60)
         ];
         if ($this->nodeInfo['route_id']) {
             $response['routes'] = $this->serverService->getRoutes($this->nodeInfo['route_id']);

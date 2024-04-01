@@ -110,9 +110,12 @@ class Helper
 
     public static function getSubscribeUrl($token)
     {
-        $path = config('v2board.subscribe_path', '/client/subscribe');
-        $path = "/api/v1{$path}?token={$token}";
-        $subscribeUrls = explode(',', config('v2board.subscribe_url'));
+        $path = config('daotech.subscribe_path', '/api/v1/client/subscribe');
+        if (empty($path)) {
+            $path = '/api/v1/client/subscribe';
+        } 
+        $path = "{$path}?token={$token}";
+        $subscribeUrls = explode(',', config('daotech.subscribe_url'));
         $subscribeUrl = $subscribeUrls[rand(0, count($subscribeUrls) - 1)];
         if ($subscribeUrl) return $subscribeUrl . $path;
         return url($path);
