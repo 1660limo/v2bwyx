@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class v2boardUpdate extends Command
+class V2boardUpdate extends Command
 {
     /**
      * The name and signature of the console command.

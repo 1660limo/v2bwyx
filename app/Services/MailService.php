@@ -19,7 +19,7 @@ class MailService
         SendEmailJob::dispatch([
             'email' => $user->email,
             'subject' => __('The traffic usage in :app_name has reached 80%', [
-                'app_name' => config('v2board.app_name', 'v2board')
+                'app_name' => config('v2board.app_name', 'V2board')
             ]),
             'template_name' => 'remindTraffic',
             'template_value' => [
@@ -35,7 +35,7 @@ class MailService
         SendEmailJob::dispatch([
             'email' => $user->email,
             'subject' => __('The service in :app_name is about to expire', [
-               'app_name' =>  config('v2board.app_name', 'v2board')
+               'app_name' =>  config('v2board.app_name', 'V2board')
             ]),
             'template_name' => 'remindExpire',
             'template_value' => [

@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Utils\Helper;
 use Illuminate\Support\Facades\DB;
 
-class v2boardInstall extends Command
+class V2boardInstall extends Command
 {
     /**
      * The name and signature of the console command.

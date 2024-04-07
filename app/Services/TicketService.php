@@ -72,7 +72,7 @@ class TicketService {
                 'template_value' => [
                     'name' => config('v2board.app_name', 'DaoTech'),
                     'url' => config('v2board.app_url'),
-                    'content' => "主题：{$ticket->subject}\r\n回复内容：请在网站查看"
+                    'content' => "主题：{$ticket->subject}\r\n回复内容：请登陆网站查看"
                 ]
             ]);
         }

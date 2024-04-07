@@ -170,7 +170,7 @@ return [
 
     'environments' => [
         'local' => [
-            'v2board' => [
+            'V2board' => [
                 'connection' => 'redis',
                 'queue' => [
                     'order_handle',
