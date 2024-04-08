@@ -57,6 +57,9 @@ class ClientController extends Controller
         }
         array_unshift($servers, array_merge($servers[0], [
             'name' => "剩余流量：{$remainingTraffic}",
-        ]));
+        ]
+		array_unshift($servers, array_merge($servers[0], [
+		    'name' => "永久官网：嗦粉.top",
+		]));
     }
 }
