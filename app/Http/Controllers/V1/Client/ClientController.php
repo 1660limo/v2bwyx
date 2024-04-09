@@ -47,18 +47,18 @@ class ClientController extends Controller
         $expiredDate = $user['expired_at'] ? date('Y-m-d', $user['expired_at']) : '长期有效';
         $userService = new UserService();
         $resetDay = $userService->getResetDay($user);
-        array_unshift($servers, array_merge($servers[0], [
-            'name' => "套餐到期：{$expiredDate}",
-        ]));
 		array_unshift($servers, array_merge($servers[0], [
-		    'name' => "永久官网：suoo.top",
+		    'name' => "打不开官网可能要使用VPN",
 		]));
 		array_unshift($servers, array_merge($servers[0], [
 		    'name' => "备用官网：嗦粉.top",
 		]));
 		array_unshift($servers, array_merge($servers[0], [
-		    'name' => "打不开官网可能要使用VPN",
+		    'name' => "永久官网：suoo.top",
 		]));
+        array_unshift($servers, array_merge($servers[0], [
+            'name' => "套餐到期：{$expiredDate}",
+        ]));
         if ($resetDay) {
             array_unshift($servers, array_merge($servers[0], [
                 'name' => "距离下次重置剩余：{$resetDay} 天",
