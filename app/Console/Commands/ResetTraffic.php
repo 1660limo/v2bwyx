@@ -147,14 +147,7 @@ class ResetTraffic extends Command
         $users = [];
         foreach ($builder->get() as $item) {
             $expireDay = date('d', $item->expired_at);
-            $expireMonth = date('m', $item->expired_at);
             $today = date('d');
-
-            $currentMonth = date('m');
-            if ($expireMonth == $currentMonth) {
-                continue;
-            }
-
             if ($expireDay === $today) {
                 array_push($users, $item->id);
             }

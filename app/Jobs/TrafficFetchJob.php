@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\User;
+use App\Services\MailService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\DB;
 class TrafficFetchJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    //protected $u;
+    //protected $d;
+    //protected $userId;
     protected $data;
     protected $server;
     protected $protocol;
@@ -28,6 +32,9 @@ class TrafficFetchJob implements ShouldQueue
     public function __construct(array $data, array $server, $protocol)
     {
         $this->onQueue('traffic_fetch');
+        //$this->u = $u;
+        //$this->d = $d;
+        //$this->userId = $userId;
         $this->data =$data;
         $this->server = $server;
         $this->protocol = $protocol;
@@ -60,7 +67,7 @@ class TrafficFetchJob implements ShouldQueue
                 return;
             } catch (\Exception $e) {
                 DB::rollback();
-                if (strpos($e->getMessage(), '40001') !== false || strpos(strtolower($e->getMessage()), 'deadlock') !== false) {
+                if (str_contains($e->getMessage(), '40001') || str_contains(strtolower($e->getMessage()), 'deadlock')) {
                     $attempt++;
                     if ($attempt < $maxAttempts) {
                         sleep(5);
