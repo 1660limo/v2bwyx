@@ -51,7 +51,13 @@ class ClientController extends Controller
             'name' => "套餐到期：{$expiredDate}",
         ]));
 		array_unshift($servers, array_merge($servers[0], [
-		    'name' => "永久官网：嗦粉.top",
+		    'name' => "永久官网：suoo.top",
+		]));
+		array_unshift($servers, array_merge($servers[0], [
+		    'name' => "备用官网：嗦粉.top",
+		]));
+		array_unshift($servers, array_merge($servers[0], [
+		    'name' => "打不开官网可能要使用VPN",
 		]));
         if ($resetDay) {
             array_unshift($servers, array_merge($servers[0], [
