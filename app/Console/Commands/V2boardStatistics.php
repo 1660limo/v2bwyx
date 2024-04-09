@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use App\Models\Stat;
 use Illuminate\Support\Facades\DB;
 
-class V2boardStatistics extends Command
+class DaoTechStatistics extends Command
 {
     /**
      * The name and signature of the console command.
